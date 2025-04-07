@@ -2,9 +2,11 @@ package com.example.myapplication.presentation.screens
 
 import android.Manifest
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.media.Image
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -26,6 +28,7 @@ import com.example.myapplication.presentation.viewmodel.MainViewModel
 import com.google.accompanist.permissions.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.nio.ByteBuffer
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -34,6 +37,7 @@ fun CameraScreen(navController: NavHostController, vm: MainViewModel) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
     var imageBitmap by remember { mutableStateOf<Bitmap?>(null) }
+    val imageCapture = remember { ImageCapture.Builder().build() }
 
     val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
@@ -45,11 +49,24 @@ fun CameraScreen(navController: NavHostController, vm: MainViewModel) {
         Box(modifier = Modifier.fillMaxSize()) {
             CameraPreview(
                 lifecycleOwner = lifecycleOwner,
-                executor = cameraExecutor,
-                onImageCaptured = { bitmap ->
-                    imageBitmap = bitmap
-                }
+                imageCapture = imageCapture
             )
+
+            // Кнопка "Сделать фото"
+            Button(
+                onClick = {
+                    captureImage(imageCapture, cameraExecutor) { bitmap ->
+                        imageBitmap = bitmap
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 100.dp)
+            ) {
+                Text("Сделать фото")
+            }
+
+            // Отображение снимка и кнопка "Распознать"
             imageBitmap?.let { bitmap ->
                 Image(
                     bitmap = bitmap.asImageBitmap(),
@@ -58,7 +75,9 @@ fun CameraScreen(navController: NavHostController, vm: MainViewModel) {
                         .fillMaxWidth()
                         .height(200.dp)
                         .align(Alignment.BottomCenter)
+                        .padding(bottom = 160.dp)
                 )
+
                 Button(
                     onClick = {
                         vm.analyze(bitmap)
@@ -82,8 +101,7 @@ fun CameraScreen(navController: NavHostController, vm: MainViewModel) {
 @Composable
 fun CameraPreview(
     lifecycleOwner: LifecycleOwner,
-    executor: ExecutorService,
-    onImageCaptured: (Bitmap) -> Unit
+    imageCapture: ImageCapture
 ) {
     val context = LocalContext.current
     val previewView = remember {
@@ -105,7 +123,7 @@ fun CameraPreview(
             val preview = Preview.Builder().build().also {
                 it.setSurfaceProvider(view.surfaceProvider)
             }
-            val imageCapture = ImageCapture.Builder().build()
+
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
@@ -116,10 +134,6 @@ fun CameraPreview(
                     preview,
                     imageCapture
                 )
-
-                view.setOnClickListener {
-                    captureImage(imageCapture, executor, onImageCaptured)
-                }
             } catch (exc: Exception) {
                 Log.e("CameraPreview", "Use case binding failed", exc)
             }
@@ -148,8 +162,26 @@ fun captureImage(
     )
 }
 
-// Эта функция должна быть реализована для преобразования ImageProxy в Bitmap
+// Функция для преобразования ImageProxy в Bitmap
 fun imageProxyToBitmap(imageProxy: ImageProxy): Bitmap? {
-    // Заглушка — реализация зависит от формата изображения
-    return null // TODO: реализовать преобразование
+    val image: Image? = imageProxy.image
+    if (image == null) {
+        imageProxy.close()
+        return null
+    }
+
+    // Получаем первый план (обычно это YUV)
+    val planeProxy = image.planes[0]
+    val buffer: ByteBuffer = planeProxy.buffer
+    val bytes = ByteArray(buffer.remaining())
+
+    buffer.get(bytes)
+
+    // Преобразуем байты в Bitmap
+    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+
+    // Закрываем ImageProxy после завершения работы
+    imageProxy.close()
+
+    return bitmap
 }

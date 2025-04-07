@@ -9,15 +9,18 @@ import com.example.myapplication.presentation.viewmodel.MainViewModel
 
 @Composable
 fun ResultScreen(vm: MainViewModel) {
-    val results by vm.results.collectAsState()
+    val results by vm.result.collectAsState()
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         Text("Результаты:", style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(8.dp))
-        results.forEach {
-            Text("${it.label} (уверенность: ${(it.confidence * 100).toInt()}%)")
+
+        results.forEach { label ->
+            Text(text = label, style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

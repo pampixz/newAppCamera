@@ -15,7 +15,7 @@ fun HistoryScreen(vm: MainViewModel) {
         Text("История распознаваний", style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(8.dp))
         vm.history.forEachIndexed { index, list ->
-            Text("Объект ${index + 1}: ${list.joinToString { it.label }}")
+            Text("Объект ${index + 1}: ${list.joinToString { it.text }}")
         }
     }
 }
