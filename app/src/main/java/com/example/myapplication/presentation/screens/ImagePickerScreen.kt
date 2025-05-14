@@ -29,7 +29,7 @@ fun ImagePickerScreen(navController: NavController, vm: MainViewModel) {
             navController.navigate("result")
         }
     }
-
+//Начиная от сюда
     Column(
         modifier = Modifier
             .fillMaxSize()

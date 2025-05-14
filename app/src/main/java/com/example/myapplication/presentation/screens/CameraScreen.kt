@@ -61,9 +61,9 @@ fun CameraScreen(navController: NavHostController, vm: MainViewModel) {
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 100.dp)
+                    .padding(bottom = 50.dp)
             ) {
-                Text("Сделать фото")
+                Text("Сделать фото1234")
             }
 
             // Отображение снимка и кнопка "Распознать"
