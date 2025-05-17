@@ -2,23 +2,20 @@ package com.example.myapplication.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
+
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)
+
 
 object AppColors {
-
-    val color900 = Color(0xFF006B00)
-    val color800 = Color(0xFF008D00)
-    val color700 = Color(0xFF00A20A)
-    val color600 = Color(0xFF1BB618)
-    val color500 = Color(0xFF33C620)
-    val color400 = Color(0xFF5ECF4A)
-    val color300 = Color(0xFF80D86D)
-    val color200 = Color(0xFFA7E399)
-    val color100 = Color(0xFFCBFEC1)
-    val color50 = Color(0xFFEAF9E6)
-    val colorText = Color.Black
-    val colorSelectedText = Color.White
+    val backgroundColor = Color(0xFFFFC0CB)
+    val textColor = Color(0xFFff0033)
+    val buttonsColor = Color(0xFFfff5f7)
 
 }
-
 
 

@@ -18,6 +18,7 @@ fun CustomButton(
     Button(
         onClick = onClick,
         modifier = Modifier
+            .padding(16.dp)
             .height(70.dp)
             .width(300.dp),
         // Можно настроить относительно экрана
@@ -25,7 +26,8 @@ fun CustomButton(
 
         // Можно регулировать закругление
         colors = ButtonDefaults.buttonColors(
-            containerColor = AppColors.color200.copy(alpha = 0.8f),
+            containerColor = AppColors.buttonsColor,
+            contentColor = AppColors.textColor,
         ),
 
 
@@ -35,8 +37,6 @@ fun CustomButton(
             disabledElevation = 0.dp
         ),
     ){
-        Text(text,
-            style = MaterialTheme.typography.labelMedium
-        )
+        Text(text)
     }
 }
