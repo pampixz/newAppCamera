@@ -9,11 +9,16 @@ import com.example.myapplication.presentation.viewmodel.MainViewModel
 
 @Composable
 fun NavGraph(navController: NavHostController, vm: MainViewModel) {
-    NavHost(navController, startDestination = "home") {
+    NavHost(navController, startDestination = "splash") {
         composable("home") { HomeScreen(navController) }
-        composable("picker") { ImagePickerScreen(navController, vm)  }
+        composable("splash") { SplashScreen(navController) }
+        composable("picker") { ImagePickerScreen(navController, vm) }
         composable("camera") { CameraScreen(navController, vm) }
-        composable("result") { ResultScreen(vm) }
-        composable("history") { HistoryScreen(vm) }
+        composable("result") { ResultScreen(navController, vm) }
+        composable("preview") {
+            PreviewScreen(navController, vm)
+        }
+
+        composable("history") { HistoryScreen(navController, vm) }
     }
 }
