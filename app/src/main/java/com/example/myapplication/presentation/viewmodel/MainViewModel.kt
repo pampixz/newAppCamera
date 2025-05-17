@@ -9,8 +9,23 @@ import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
 class MainViewModel : ViewModel() {
+
+
+    // Добавляем свойство для хранения снимка
+    private var _capturedImage by mutableStateOf<Bitmap?>(null)
+    val capturedImage: Bitmap? get() = _capturedImage
+
+    fun saveCapturedImage(bitmap: Bitmap) {
+        _capturedImage = bitmap
+    }
+    fun clearImage() {
+        _capturedImage = null
+    }
 
     // Состояние для текущих результатов распознавания
     private val _result = MutableStateFlow<List<String>>(emptyList())
