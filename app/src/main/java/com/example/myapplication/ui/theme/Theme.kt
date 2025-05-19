@@ -79,6 +79,7 @@ val AppTypography = Typography(
         textAlign = TextAlign.Center
     ),
     bodyLarge = TextStyle(
+        color = Color.White,
         fontFamily = UbuntuFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
