@@ -4,12 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.myapplication.presentation.components.CustomButton
@@ -47,15 +49,20 @@ fun ResultScreen(navController: NavController, vm: MainViewModel) {
                                 .padding(top = 60.dp)
                                 .padding(horizontal = 10.dp)
                         ) {
-                            items(results) { result ->
-                                if (results.indexOf(result) == 0) {
+                            itemsIndexed(results) { index, result ->
+                                if (index == 0) {
                                     Spacer(modifier = Modifier.height(100.dp))
                                 }
+
                                 ListElement(
                                     label = result.label,
                                     confidence = result.confidence,
                                     timestamp = formatter.format(result.timetamp)
                                 )
+
+                                if (index == results.lastIndex) {
+                                    Spacer(modifier = Modifier.height(200.dp))
+                                }
                             }
                         }
                         Text(
@@ -121,6 +128,8 @@ fun ListElement(label: String, confidence: Float, timestamp: String) {
                 )
                 Text(
                     text = "Дата сканирования: $timestamp",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White
                 )
