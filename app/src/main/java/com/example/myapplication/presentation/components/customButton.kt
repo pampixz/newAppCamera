@@ -13,6 +13,7 @@ import com.example.myapplication.ui.theme.AppColors
 fun CustomButton(
     text: String,
     onClick: () -> Unit,
+    isOpacity: Boolean = true
 
 ) {
     Button(
@@ -20,12 +21,11 @@ fun CustomButton(
         modifier = Modifier
             .height(70.dp)
             .width(300.dp),
-        // Можно настроить относительно экрана
 
-
-        // Можно регулировать закругление
         colors = ButtonDefaults.buttonColors(
-            containerColor = AppColors.color200.copy(alpha = 0.8f),
+            containerColor = AppColors.color200.copy(
+                alpha = if (isOpacity) 0.8f else 1.0f
+            )
         ),
 
 
@@ -34,8 +34,9 @@ fun CustomButton(
             pressedElevation = 4.dp,
             disabledElevation = 0.dp
         ),
-    ){
-        Text(text,
+    ) {
+        Text(
+            text,
             style = MaterialTheme.typography.labelMedium
         )
     }
