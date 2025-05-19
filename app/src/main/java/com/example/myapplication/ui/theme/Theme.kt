@@ -87,17 +87,23 @@ val AppTypography = Typography(
     ),
     //Заголовок в Box истории
     labelLarge = TextStyle(
+        fontFamily = UbuntuFontFamily,
+
         color = Color.White,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp
     ),
     labelMedium = TextStyle(
+        fontFamily = UbuntuFontFamily,
+
         color = AppColors.colorText,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp
     ),
     //Для элементов в списке результатов и исптории
     labelSmall = TextStyle(
+        fontFamily = UbuntuFontFamily,
+
         color = Color.White,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp
