@@ -80,12 +80,14 @@ fun ResultScreen(navController: NavController, vm: MainViewModel) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(16.dp),
+                    .padding(paddingValues),
+//                    .padding(16.dp),
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                CustomButton(text = "Главное меню", onClick = {
+                CustomButton(
+                    isOpacity = false,
+                    text = "Главное меню", onClick = {
                     navController.navigate("home") {
                         popUpTo("home") { inclusive = true }
                         launchSingleTop = true
@@ -118,20 +120,18 @@ fun ListElement(label: String, confidence: Float, timestamp: String) {
             ) {
                 Text(
                     text = "Объект: $label",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = Color.White
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    style = MaterialTheme.typography.labelLarge,
                 )
                 Text(
                     text = "Точность: ${(confidence * 100).toInt()}%",
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White
                 )
                 Text(
                     text = "Дата сканирования: $timestamp",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White
                 )
             }
         }
