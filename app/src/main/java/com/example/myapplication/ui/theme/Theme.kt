@@ -33,12 +33,10 @@ private val DarkColorScheme = darkColorScheme(
     primary = AppColors.color50,
     primaryContainer = AppColors.color50,
     secondary = Color.Gray.copy(alpha = 0.2f), //Цвет для card
-//    tertiary = Color(0xFF018786),
     surface = AppColors.color50,
     onSurface = AppColors.color50,
     onPrimary = Color.White, //Для текста элементов в списке
-//    onSecondary = Color.Black,
-//    error = Color(0xFFB00020)
+    onSecondary = AppColors.color200.copy(alpha = 0.8f),
 
 
 )
@@ -50,13 +48,11 @@ private val LightColorScheme = lightColorScheme(
     primary = AppColors.color50,
     primaryContainer = AppColors.color50,
     secondary = Color.Gray.copy(alpha = 0.2f), //Цвет для card
-//    tertiary = Color(0xFF018786),
     surface = AppColors.color50,
     onSurface = AppColors.color50,
     onPrimary = Color.White, //Для текста элементов в списке
-//    onSecondary = Color.Black,
-//    error = Color(0xFFB00020)
-
+    onSecondary = AppColors.color200.copy(alpha = 0.8f),
+    
 
 )
 
@@ -107,23 +103,12 @@ val AppTypography = Typography(
     )
 )
 
-
 @Composable
 fun MyApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
